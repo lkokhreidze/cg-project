@@ -31,15 +31,18 @@ def toFormat(filename, diffData):
     for line in diffData:
         writeString = ""
         for element in line:
-            writeString += str(element) + " "
+            writeString += str(element) + ","
         writeString = writeString[:-1] + "\n"
         file.write(writeString)
 
 
 i = float(0)
 
-older = toList("2000.asc")
-newer = toList("2010.asc")
+from1990 = toList("datasource/glp90ag60.asc")
+from2000 = toList("datasource/glp00ag60.asc")
+from2010 = toList("datasource/glp10ag60.asc")
 
-diff = getDifference(newer, older)
-toFormat("diff20002010.asc", diff)
+diff20002010 = getDifference(from2010, from2000)
+diff19902000 = getDifference(from2000, from1990)
+toFormat("diff20002010.csv", diff20002010)
+toFormat("diff19902000.csv", diff20002010)

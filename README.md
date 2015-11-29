@@ -1,3 +1,3 @@
 # CG-Project
 
-[Try it out](zwicks.github.io)
+[Try it out](https://zwicks.github.io)

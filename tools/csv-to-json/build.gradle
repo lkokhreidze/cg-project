@@ -39,7 +39,7 @@ def parse(File csvFile) {
         def i = 0, values = line.split(',', -1)
         content += JsonOutput.toJson(keys.inject([:]) { map, key -> map << ["$key": values[i++]] })
     }
-    new File('./data.json').write(new JsonBuilder(content).toPrettyString())
+    new File('../../datasource/data.json').write(new JsonBuilder(content).toPrettyString())
 }
 
 def readCsvFile() {
@@ -48,7 +48,7 @@ def readCsvFile() {
     if (console) {
         csvPath = console.readLine("> write csv file path: ")
     }
-    def csvFile = new File(csvPath)
+    def csvFile = new File('../../', csvPath)
     if(!csvFile.exists()) {
         println "Csv file doesn't exist"
         return null

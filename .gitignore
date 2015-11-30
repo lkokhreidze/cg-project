@@ -1,0 +1,3 @@
+.DS_Store
+./tools/csv-to-json/.idea
+./tools/csv-to-json/.csv-to-json.iml

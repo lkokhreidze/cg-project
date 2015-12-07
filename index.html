@@ -84,7 +84,7 @@
   <div id="container"></div>
 
   <div id="info">
-    <strong>WebGL Globe</a></strong> <span class="bull">&bull;</span> Data acquired from <a href="http://sedac.ciesin.columbia.edu/data/collection/gpw-v3/sets/browse">SEDAC & CIESIN</a>
+    <strong>WebGL Globe</strong> <span class="bull">&bull;</span> Data acquired from <a href="http://sedac.ciesin.columbia.edu/data/collection/gpw-v3/sets/browse">SEDAC & CIESIN</a>
   </div>
 
   <div id="currentInfo">
@@ -109,16 +109,18 @@
       var timespans = ['1990-2000', '2000-2010'];
       var container = document.getElementById('container');
       var globe = new DAT.Globe(container);
-
+		
       console.log(globe);
       var i, tweens = [];
       
       var settimespan = function(globe, t) {
         return function() {
+		  console.log("YES")
           new TWEEN.Tween(globe).to({time: t/timespans.length},500).easing(TWEEN.Easing.Cubic.EaseOut).start();
           var y = document.getElementById('timespan'+timespans[t]);
           if (y.getAttribute('class') === 'timespan active') {
             return;
+			
           }
           var yy = document.getElementsByClassName('timespan');
           for(i = 0; i < yy.length; i++) {
@@ -128,6 +130,7 @@
         };
       };
       
+	  console.log("Good until now..");
       for(var i = 0; i < timespans.length; i++) {
         var y = document.getElementById('timespan'+timespans[i]);
         y.addEventListener('mouseover', settimespan(globe,i), false);
@@ -137,7 +140,7 @@
       TWEEN.start();
       
       xhr = new XMLHttpRequest();
-      xhr.open('GET', '', true);
+      xhr.open('GET', '/globe/data.json', true);	  
       xhr.onreadystatechange = function(e) {
         if (xhr.readyState === 4) {
           if (xhr.status === 200) {

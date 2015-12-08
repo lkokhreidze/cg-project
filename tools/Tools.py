@@ -1,5 +1,6 @@
 __author__ = 'suidov'
 
+import numpy as np
 
 def toList(filename):
     popList = []
@@ -23,30 +24,28 @@ def getDifference(newData, oldData):
             list.append(element)
         diffList.append(list)
 
+    #normalizing data from 0 to 1
+    '''
+    input_array = np.array(diffList)
+    if np.unique(input_array).shape[0] == 1:
+        print ("Something's wrong here.")
+        pass
+    else:
+        result_array=(input_array-np.min(input_array))/np.ptp(input_array)
+        return result_array
+    '''
     return diffList
 
-def toFormat(filename, diffData):
-    file = open(filename, 'w')
-
-    for line in diffData:
-        writeString = ""
-        for element in line:
-            writeString += str(element) + ","
-        writeString = writeString[:-1] + "\n"
-        file.write(writeString)
-
-def toCoordinates(diffData):
-    coords = []
-    negatives = 0
-    for i in range(0,len(diffData)):
-        for j in range(0,len(diffData[i])):
-            if diffData[i][j] != 0:
-                if diffData[i][j] < 0:
-                    negatives +=1
-                coords.append(str(i * 1.0000000000008 - 58) + "," + str(j * 1.0000000000008 - 180) + "," + format_float(diffData[i][j]))
-                #coords.append(str(i * 1.0000000000008 - 58) + "," + str(j * 1.0000000000008 - 180) + ", 1.0" )
-    print (negatives)
-    return coords
+def toCoordinates(filename, diff1, diff2):
+    coords1 = []
+    coords2 = []
+    for i in range(0, len(diff1)):
+        for j in range(0, len(diff1[i])):
+            if diff1[i][j] != 0 and diff2[i][j] != 0:
+                if diff1[i][j] > 0 and diff2[i][j] >0:
+                    coords1.append(str(i  - 58) + "," + str(j - 180) + "," + format_float(diff1[i][j]))
+                    coords2.append(str(i  - 58) + "," + str(j - 180) + "," + format_float(diff2[i][j]))
+    toJSON(filename,coords1,coords2)
 
 def format_float(value, precision=-1):
     if precision < 0:
@@ -80,7 +79,7 @@ def toJSON(filename, diff1, diff2):
 
 
 
-i = float(0)
+
 
 from1990 = toList("datasource/glp90ag60.asc")
 from2000 = toList("datasource/glp00ag60.asc")
@@ -88,10 +87,5 @@ from2010 = toList("datasource/glp10ag60.asc")
 
 diff20002010 = getDifference(from2010, from2000)
 diff19902000 = getDifference(from2000, from1990)
-#toFormat("diff20002010.csv", diff20002010)
-#toFormat("diff19902000.csv", diff20002010)
 
-diff1 = toCoordinates(diff19902000)
-diff2 = toCoordinates(diff20002010)
-
-toJSON("data.json", diff1, diff2)
+toCoordinates("data.json", diff19902000, diff20002010)

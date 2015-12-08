@@ -1,6 +1,7 @@
 __author__ = 'suidov'
 
 import numpy as np
+from sklearn.preprocessing import normalize
 
 def toList(filename):
     popList = []
@@ -23,17 +24,6 @@ def getDifference(newData, oldData):
             element = newData[i][j] - oldData[i][j]
             list.append(element)
         diffList.append(list)
-
-    #normalizing data from 0 to 1
-    '''
-    input_array = np.array(diffList)
-    if np.unique(input_array).shape[0] == 1:
-        print ("Something's wrong here.")
-        pass
-    else:
-        result_array=(input_array-np.min(input_array))/np.ptp(input_array)
-        return result_array
-    '''
     return diffList
 
 def toCoordinates(filename, diff1, diff2):
@@ -43,28 +33,19 @@ def toCoordinates(filename, diff1, diff2):
     for i in range(0, len(diff1)):
         for j in range(0,len(diff1[i])):
             if diff1[i][j] != 0 and diff2[i][j] != 0:
-                toAdd[i][j] = 1
+                    toAdd[i][j] = 1
     # here comes normalization
-    input_array1 = np.array(diff1)
-    if np.unique(input_array1).shape[0] == 1:
-        print ("Something's wrong here.")
-        pass
-    else:
-        result_array1 = (input_array1-np.min(input_array1))/np.ptp(input_array1)
 
-    input_array2 = np.array(diff2)
-    if np.unique(input_array2).shape[0] == 1:
-        print ("Something's wrong here.")
-        pass
-    else:
-        result_array2 = (input_array2-np.min(input_array2))/np.ptp(input_array2)
+    result_array1 = normalize(diff1)
+    result_array2 = normalize(diff2)
 
     for i in range(0, len(result_array1)):
         for j in range(0, len(result_array1[i])):
             if toAdd[i][j] == 1:
-                    coords1.append(str(-(i - 85)) + "," + str(j - 180) + "," + format_float(result_array1[i][j]))
-                    coords2.append(str(-(i - 85)) + "," + str(j - 180) + "," + format_float(result_array2[i][j]))
+                    coords1.append(str(-(i - 84)) + "," + str(j - 180) + "," + format_float(result_array1[i][j]))
+                    coords2.append(str(-(i - 84)) + "," + str(j - 180) + "," + format_float(result_array2[i][j]))
     toJSON(filename,coords1,coords2)
+
 
 def format_float(value, precision=-1):
     if precision < 0:
@@ -95,9 +76,6 @@ def toJSON(filename, diff1, diff2):
     jsonString = "[" + string1 + string2 + "]"
 
     file.write(jsonString)
-
-
-
 
 
 from1990 = toList("datasource/glp90ag60.asc")

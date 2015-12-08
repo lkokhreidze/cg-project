@@ -39,12 +39,31 @@ def getDifference(newData, oldData):
 def toCoordinates(filename, diff1, diff2):
     coords1 = []
     coords2 = []
+    toAdd = np.zeros_like(diff1)
     for i in range(0, len(diff1)):
-        for j in range(0, len(diff1[i])):
+        for j in range(0,len(diff1[i])):
             if diff1[i][j] != 0 and diff2[i][j] != 0:
-                if diff1[i][j] > 0 and diff2[i][j] >0:
-                    coords1.append(str(i  - 58) + "," + str(j - 180) + "," + format_float(diff1[i][j]))
-                    coords2.append(str(i  - 58) + "," + str(j - 180) + "," + format_float(diff2[i][j]))
+                toAdd[i][j] = 1
+    # here comes normalization
+    input_array1 = np.array(diff1)
+    if np.unique(input_array1).shape[0] == 1:
+        print ("Something's wrong here.")
+        pass
+    else:
+        result_array1 = (input_array1-np.min(input_array1))/np.ptp(input_array1)
+
+    input_array2 = np.array(diff2)
+    if np.unique(input_array2).shape[0] == 1:
+        print ("Something's wrong here.")
+        pass
+    else:
+        result_array2 = (input_array2-np.min(input_array2))/np.ptp(input_array2)
+
+    for i in range(0, len(result_array1)):
+        for j in range(0, len(result_array1[i])):
+            if toAdd[i][j] == 1:
+                    coords1.append(str(i - 58) + "," + str(-j) + "," + format_float(result_array1[i][j]))
+                    coords2.append(str(i - 58) + "," + str(-j) + "," + format_float(result_array2[i][j]))
     toJSON(filename,coords1,coords2)
 
 def format_float(value, precision=-1):

@@ -62,8 +62,8 @@ def toCoordinates(filename, diff1, diff2):
     for i in range(0, len(result_array1)):
         for j in range(0, len(result_array1[i])):
             if toAdd[i][j] == 1:
-                    coords1.append(str(i - 58) + "," + str(-j) + "," + format_float(result_array1[i][j]))
-                    coords2.append(str(i - 58) + "," + str(-j) + "," + format_float(result_array2[i][j]))
+                    coords1.append(str(-(i - 85)) + "," + str(j - 180) + "," + format_float(result_array1[i][j]))
+                    coords2.append(str(-(i - 85)) + "," + str(j - 180) + "," + format_float(result_array2[i][j]))
     toJSON(filename,coords1,coords2)
 
 def format_float(value, precision=-1):

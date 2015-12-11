@@ -20,14 +20,14 @@ var DAT = DAT || {};
 DAT.Globe = function(container, opts) {
   opts = opts || {};
   
-  var colorFn = opts.colorFn || function(x) {
+   var colorFn = opts.colorFn || function(x) {
     var c = new THREE.Color();
-    if (x < 0) {
-  		//c.setHSL( ( 0.6 - ( x * 0.5 ) ), 1.0, 0.5 );
-  		c.setHSL((2 / 15 + (x * 2 / 15)), 1.0, 0.5 );
-  	} else {
-  		c.setHSL((7 / 15 - (x * 2 / 15)), 1.0, 0.5 );
-  	}
+	if (x < 0) {
+		//c.setHSL( ( 0.6 - ( x * 0.5 ) ), 1.0, 0.5 );
+		c.setHSL((2 / 15 + (x * 2 / 15)), 1.0, 0.5 );
+	} else {
+		c.setHSL((7 / 15 - (x * 2 / 15)), 1.0, 0.5 );
+	}
     return c;
   };
   var imgDir = opts.imgDir || '/globe/';
@@ -113,7 +113,8 @@ DAT.Globe = function(container, opts) {
     shader = Shaders['earth'];
     uniforms = THREE.UniformsUtils.clone(shader.uniforms);
 
-    uniforms['texture'].value = THREE.ImageUtils.loadTexture(imgDir+'world.jpg');
+	THREE.ImageUtils.crossOrigin = '';
+    uniforms['texture'].value = THREE.ImageUtils.loadTexture('/images/world.jpg');
 
     material = new THREE.ShaderMaterial({
 
@@ -213,7 +214,7 @@ DAT.Globe = function(container, opts) {
     for (i = 0; i < data.length; i += step) {
       lat = data[i];
       lng = data[i + 1];
-      color = colorFnWrapper(data,i);
+	  color = colorFnWrapper(data,i);
       size = data[i + 2];
       if (size < 0) {
         size = size * -150;

@@ -1,164 +1,39 @@
 <!DOCTYPE HTML>
 <html lang="en">
-  <head>
-    <title>WebGL Globe</title>
-    <meta charset="utf-8">
-    <style type="text/css">
-      html {
-        height: 100%;
-      }
-	  
-      body {
-        margin: 0;
-        padding: 0;
-        background: #000000 url(loading.gif) center center no-repeat;
-        color: #ffffff;
-        font-family: sans-serif;
-        font-size: 13px;
-        line-height: 20px;
-        height: 100%;
-      }
-
-      #info {
-        font-size: 11px;
-        position: absolute;
-        bottom: 5px;
-        background-color: rgba(0,0,0,0.8);
-        border-radius: 3px;
-        left: 10px;
-        padding: 10px;
-      }
-
-      #currentInfo {
-        width: 270px;
-        position: absolute;
-        left: 20px;
-        top: 63px;
-        background-color: rgba(0,0,0,0.2);
-        border-top: 1px solid rgba(255,255,255,0.4);
-        padding: 10px;
-      }
-
-      a {
-        color: #aaa;
-        text-decoration: none;
-      }
-
-      .bull {
-        padding: 0 5px;
-        color: #555;
-      }
-
-      #title {
-        position: absolute;
-        top: 20px;
-        width: 270px;
-        left: 20px;
-        background-color: rgba(0,0,0,0.2);
-        border-radius: 3px;
-        font: 20px Georgia;
-        padding: 10px;
-      }
-
-      .timespan {
-        font: 16px Georgia;
-        line-height: 26px;
-        height: 30px;
-        text-align: center;
-        float: left;
-        width: 130px;
-        color: rgba(255, 255, 255, 0.4);
-        cursor: pointer;
-        -webkit-transition: all 0.1s ease-out;
-      }
-
-      .timespan:hover, .timespan.active {
-        font-size: 20px;
-        color: #fff;
-      }
-
-    </style>
-  </head>
-  <body>
-
-  <div id="container"></div>
-
-  <div id="info">
-    <strong>WebGL Globe</strong> <span class="bull">&bull;</span> Data acquired from <a href="http://sedac.ciesin.columbia.edu/data/collection/gpw-v3/sets/browse">SEDAC & CIESIN</a>
-  </div>
-
-  <div id="currentInfo">
-    <span id="timespan1990-2000" class="timespan">1990 - 2000</span>
-    <span id="timespan2000-2010" class="timespan">2000 - 2010</span>
-  </div>
-
-  <div id="title">
-    World Population Change
-  </div>
-
-  <script type="text/javascript" src="third-party/Detector.js"></script>
-  <script type="text/javascript" src="third-party/three.min.js"></script>
-  <script type="text/javascript" src="third-party/Tween.js"></script>
-  <script type="text/javascript" src="globe.js"></script>
-  <script type="text/javascript">
-
-    if(!Detector.webgl){
-      Detector.addGetWebGLMessage();
-    } else {
-
-      var timespans = ['1990-2000', '2000-2010'];
-      var container = document.getElementById('container');
-      var globe = new DAT.Globe(container);
+	<head>
+		<title>CG-Project WebGL Globe</title>
+		<meta charset="utf-8">
 		
-      console.log(globe);
-      var i, tweens = [];
-      
-      var settimespan = function(globe, t) {
-        return function() {
-		  console.log("YES")
-          new TWEEN.Tween(globe).to({time: t/timespans.length},500).easing(TWEEN.Easing.Cubic.EaseOut).start();
-          var y = document.getElementById('timespan'+timespans[t]);
-          if (y.getAttribute('class') === 'timespan active') {
-            return;
-			
-          }
-          var yy = document.getElementsByClassName('timespan');
-          for(i = 0; i < yy.length; i++) {
-            yy[i].setAttribute('class','timespan');
-          }
-          y.setAttribute('class', 'timespan active');
-        };
-      };
-      
-	  console.log("Good until now..");
-      for(var i = 0; i < timespans.length; i++) {
-        var y = document.getElementById('timespan'+timespans[i]);
-        y.addEventListener('mouseover', settimespan(globe,i), false);
-      }
-      
-      var xhr;
-      TWEEN.start();
-      
-      xhr = new XMLHttpRequest();
-      xhr.open('GET', '/globe/data.json', true);	  
-      xhr.onreadystatechange = function(e) {
-        if (xhr.readyState === 4) {
-          if (xhr.status === 200) {
-            var data = JSON.parse(xhr.responseText);
-            window.data = data;
-            for (i = 0; i < data.length; i++) {
-              globe.addData(data[i][1], {format: 'magnitude', name: data[i][0], animated: true});
-            }
-            globe.createPoints();
-            settimespan(globe,0)();
-            globe.animate();
-            document.body.style.backgroundImage = 'none'; // remove loading
-          }
-        }
-      };
-      xhr.send(null);
-    }
+		<link rel="stylesheet" type="text/css" href="/css/layout.css">
+	</head>
+	<body>
+		<div id="container"></div>
 
-  </script>
-  </body>
+		<div id="info">
+			<strong>WebGL Globe</a></strong> <span class="bull">&bull;</span> Data acquired from <a href="http://sedac.ciesin.columbia.edu/data/collection/gpw-v3/sets/browse">SEDAC & CIESIN</a>
+		</div>
+
+		<div id="currentInfo">
+			<span id="timespan1990-2000" class="timespan">1990 - 2000</span>
+			<span id="timespan2000-2010" class="timespan">2000 - 2010</span>
+		</div>
+
+		<div id="title">
+			World Population Change
+		</div>
+		
+		<script type="text/javascript" src="/third-party/Detector.js"></script>
+		<script type="text/javascript" src="/third-party/three.min.js"></script>
+		<script type="text/javascript" src="/third-party/Tween.js"></script>
+		<script type="text/javascript" src="/js/globe.js"></script>
+		<script type="text/javascript" src="/js/main.js"></script>
+		<script type="text/javascript">
+
+			if (!Detector.webgl){
+				Detector.addGetWebGLMessage();
+			} else {
+				run();
+			}
+		</script>
+	</body>
 </html>

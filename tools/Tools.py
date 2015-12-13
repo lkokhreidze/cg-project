@@ -39,11 +39,21 @@ def toCoordinates(filename, diff1, diff2):
     result_array1 = normalize(diff1)
     result_array2 = normalize(diff2)
 
+    for i in range(0,len(result_array1)):
+        for j in range(0,len(result_array1[i])):
+            if -0.001 < result_array1[i][j] < 0.001:
+                toAdd[i][j] = 0
+
+    for i in range(0,len(result_array2)):
+        for j in range(0,len(result_array2[i])):
+            if -0.001 < result_array2[i][j] < 0.001:
+                toAdd[i][j] = 0
+
     for i in range(0, len(result_array1)):
         for j in range(0, len(result_array1[i])):
             if toAdd[i][j] == 1:
-                    coords1.append(str(-(i - 84)) + "," + str(j - 180) + "," + format_float(result_array1[i][j]))
-                    coords2.append(str(-(i - 84)) + "," + str(j - 180) + "," + format_float(result_array2[i][j]))
+                    coords1.append(str(-(i - 84)) + "," + str(j - 179) + "," + format_float(result_array1[i][j]))
+                    coords2.append(str(-(i - 84)) + "," + str(j - 179) + "," + format_float(result_array2[i][j]))
     toJSON(filename,coords1,coords2)
 
 
@@ -78,11 +88,11 @@ def toJSON(filename, diff1, diff2):
     file.write(jsonString)
 
 
-from1990 = toList("datasource/glp90ag60.asc")
-from2000 = toList("datasource/glp00ag60.asc")
-from2010 = toList("datasource/glp10ag60.asc")
+from1990 = toList("../datasource/glp90ag60.asc")
+from2000 = toList("../datasource/glp00ag60.asc")
+from2010 = toList("../datasource/glp10ag60.asc")
 
 diff20002010 = getDifference(from2010, from2000)
 diff19902000 = getDifference(from2000, from1990)
 
-toCoordinates("data.json", diff19902000, diff20002010)
+toCoordinates("../json/data.json", diff19902000, diff20002010)

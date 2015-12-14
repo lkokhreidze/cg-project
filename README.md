@@ -1,6 +1,6 @@
 # CG-Project
 
-[Try it out](https://zwicks.github.io)
+[Try it out](https://lkokhreidze.github.io/cg-project/)
 
 ## How to run on local machine
 

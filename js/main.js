@@ -33,7 +33,7 @@ function run() {
 	TWEEN.start();
 				  
 	xhr = new XMLHttpRequest();
-	xhr.open('GET', '/json/data.json', true);
+	xhr.open('GET', './json/data.json', true);
 	xhr.onreadystatechange = function(e) {
 		if (xhr.readyState === 4) {
 			if (xhr.status === 200) {

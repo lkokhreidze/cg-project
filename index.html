@@ -1,0 +1,39 @@
+<!DOCTYPE HTML>
+<html lang="en">
+	<head>
+		<title>CG-Project WebGL Globe</title>
+		<meta charset="utf-8">
+		
+		<link rel="stylesheet" type="text/css" href="/css/layout.css">
+	</head>
+	<body>
+		<div id="container"></div>
+
+		<div id="info">
+			<strong>WebGL Globe</a></strong> <span class="bull">&bull;</span> Data acquired from <a href="http://sedac.ciesin.columbia.edu/data/collection/gpw-v3/sets/browse">SEDAC & CIESIN</a>
+		</div>
+
+		<div id="currentInfo">
+			<span id="timespan1990-2000" class="timespan">1990 - 2000</span>
+			<span id="timespan2000-2010" class="timespan">2000 - 2010</span>
+		</div>
+
+		<div id="title">
+			World Population Change
+		</div>
+		
+		<script type="text/javascript" src="/third-party/Detector.js"></script>
+		<script type="text/javascript" src="/third-party/three.min.js"></script>
+		<script type="text/javascript" src="/third-party/Tween.js"></script>
+		<script type="text/javascript" src="/js/globe.js"></script>
+		<script type="text/javascript" src="/js/main.js"></script>
+		<script type="text/javascript">
+
+			if (!Detector.webgl){
+				Detector.addGetWebGLMessage();
+			} else {
+				run();
+			}
+		</script>
+	</body>
+</html>
